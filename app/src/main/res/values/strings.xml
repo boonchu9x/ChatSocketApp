@@ -25,4 +25,6 @@
         <item quantity="one">%s online</item>
         <item quantity="other">%s onlines</item>
     </plurals>
+
+    <string name="unable_top_open_gallery">Unable to open Gallery!</string>
 </resources>

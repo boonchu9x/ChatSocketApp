@@ -1,6 +1,7 @@
 package com.example.chatsocket.entity;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chatsocket.R;
+import com.example.chatsocket.utils.ImageUtil;
 
 import java.util.List;
 
@@ -124,16 +126,20 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void setTransaction(Message message, boolean notshow, int type) {
             if (message != null) {
 
-                cardImage.setVisibility(View.GONE);
+                if (message.getByteImage() != null) {
+                    cardImage.setVisibility(View.VISIBLE);
+                    imgMessage.setImageBitmap(ImageUtil.getBitmapFromByte(message.getByteImage()));
+                }
                 if (notshow) {
                     RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) lnMessage.getLayoutParams();
-                    layoutParams.setMargins(layoutParams.getMarginStart(),context.getResources().getDimensionPixelSize(R.dimen.border_corner_normal), layoutParams.getMarginEnd(), 0);
+                    layoutParams.setMargins(layoutParams.getMarginStart(), context.getResources().getDimensionPixelSize(R.dimen.border_corner_normal), layoutParams.getMarginEnd(), 0);
                     lnMessage.setLayoutParams(layoutParams);
                     tvTime.setVisibility(View.GONE);
                     tvMessage.setBackground(type == 0 ? ContextCompat.getDrawable(context, R.drawable.border_item_message_me_continuity) : ContextCompat.getDrawable(context, R.drawable.border_item_message_you_continuity));
                     imgAvatar.setVisibility(View.INVISIBLE);
                 }
                 tvTime.setText(message.getUsername());
+                if (TextUtils.isEmpty(message.getMessage())) tvMessage.setVisibility(View.GONE);
                 tvMessage.setText(message.getMessage());
 
                 tvMessage.setOnLongClickListener(view -> {

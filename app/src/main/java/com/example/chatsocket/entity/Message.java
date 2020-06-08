@@ -10,6 +10,7 @@ public class Message {
     private int mType;
     private String mMessage;
     private String mUsername;
+    private byte[] mByteImage;
 
     private Message() {}
 
@@ -25,14 +26,24 @@ public class Message {
         return mUsername;
     };
 
+    public byte[] getByteImage(){
+        return mByteImage;
+    }
+
 
     public static class Builder {
         private final int mType;
         private String mUsername;
         private String mMessage;
+        private byte[] byteImage;
 
         public Builder(int type) {
             mType = type;
+        }
+
+        public Builder byteImage(byte[] byteImage) {
+            this.byteImage = byteImage;
+            return this;
         }
 
         public Builder username(String username) {
@@ -49,6 +60,7 @@ public class Message {
             Message message = new Message();
             message.mType = mType;
             message.mUsername = mUsername;
+            message.mByteImage = byteImage;
             message.mMessage = mMessage;
             return message;
         }

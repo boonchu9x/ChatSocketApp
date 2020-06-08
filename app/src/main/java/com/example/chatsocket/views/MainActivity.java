@@ -1,12 +1,18 @@
 package com.example.chatsocket.views;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -18,22 +24,30 @@ import com.example.chatsocket.R;
 import com.example.chatsocket.entity.ChatSocketApp;
 import com.example.chatsocket.entity.Message;
 import com.example.chatsocket.entity.MessageAdapter;
+import com.example.chatsocket.utils.ImageUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
+import pl.aprilapps.easyphotopicker.MediaFile;
+import pl.aprilapps.easyphotopicker.MediaSource;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,8 +77,10 @@ public class MainActivity extends AppCompatActivity {
     private Boolean isConnected = true;
     private static final int TYPING_TIMER_LENGTH = 600;
 
-    private String count;
-    private String online = "online";
+
+    private EasyImage easyImage;
+    private byte[] byteImage = null;
+    private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 102;
 
 
     @Override
@@ -90,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
         mSocket.on("user-left", onUserLeft);
 
         eventViews();
+
+
     }
 
 
@@ -117,6 +135,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         rvMessage.setAdapter(mAdapter);
+
+        easyImage = new EasyImage.Builder(this)
+
+                // Chooser only
+                // Will appear as a system chooser title, DEFAULT empty string
+                //.setChooserTitle("Pick media")
+                // Will tell chooser that it should show documents or gallery apps
+                //.setChooserType(ChooserType.CAMERA_AND_DOCUMENTS)  you can use this or the one below
+                //.setChooserType(ChooserType.CAMERA_AND_GALLERY)
+
+                // Setting to true will cause taken pictures to show up in the device gallery, DEFAULT false
+                .setCopyImagesToPublicGalleryFolder(false)
+                // Sets the name for images stored if setCopyImagesToPublicGalleryFolder = true
+                .setFolderName("ChatAppSocket")
+                // Allow multiple picking
+                .allowMultiple(false)
+                .build();
     }
 
     @Override
@@ -124,12 +159,81 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    @OnClick({R.id.ln_send_message, R.id.ln_send_image})
+    @OnClick({R.id.ln_send_message, R.id.ln_send_image, R.id.card_clear_image})
     void eventSend(View view) {
         if (view.getId() == R.id.ln_send_message) sendMessage();
-        if (view.getId() == R.id.ln_send_image) {
+        if (view.getId() == R.id.ln_send_image) actionGallery();
+        if (view.getId() == R.id.card_clear_image) {
+            lnShowImage.setVisibility(View.GONE);
+            byteImage = null;
         }
     }
+
+    private void actionGallery() {
+        if (easyImage == null) return;
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+            }
+        } else {
+            easyImage.openGallery(this);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                easyImage.openGallery(this);
+            } else {
+                Toast.makeText(this, R.string.unable_top_open_gallery, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        easyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onMediaFilesPicked(@NonNull MediaFile[] imageFiles, @NonNull MediaSource source) {
+                File file = imageFiles[0].getFile();
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+                int imageHeight = options.outHeight;
+                int imageWidth = options.outWidth;
+
+                String filePathColumn = file.getPath();
+                Bitmap imageBitmap = BitmapFactory.decodeFile(filePathColumn);
+                byteImage = ImageUtil.getBytesFromBitmap(imageBitmap);
+                if (imageWidth > 150) {
+                    float scale = imageWidth / 150;
+                    Bitmap scaleBitmap = Bitmap.createScaledBitmap(imageBitmap, 150, (int) (imageHeight / scale), false);
+                    imgShowImage.setImageBitmap(scaleBitmap);
+                } else {
+                    imgShowImage.setImageBitmap(imageBitmap);
+                }
+                lnShowImage.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onImagePickerError(@NonNull Throwable error, @NonNull MediaSource source) {
+                //Some error handling
+                error.printStackTrace();
+            }
+
+            @Override
+            public void onCanceled(@NonNull MediaSource source) {
+                //Not necessary to remove any files manually anymore
+            }
+        });
+    }
+
 
     private void eventViews() {
         edtMessage.setOnEditorActionListener((v, id, event) -> {
@@ -177,10 +281,10 @@ public class MainActivity extends AppCompatActivity {
         return "<font color='#62CB00'>⦿ </font>" + "<font>" + getResources().getQuantityString(R.plurals.user_online, user, user) + "</font>";
     }
 
-    private void addMessage(String username, String message, int type) {
+    private void addMessage(String username, String message, byte[] byteImage, int type) {
 
         listMessage.add(new Message.Builder(type)
-                .username(username).message(message).build());
+                .username(username).byteImage(byteImage).message(message).build());
         mAdapter.notifyItemInserted(listMessage.size() - 1);
         scrollToBottom();
     }
@@ -208,15 +312,28 @@ public class MainActivity extends AppCompatActivity {
         if (!mSocket.connected()) return;
         mTyping = false;
         String message = edtMessage.getText().toString().trim();
-        if (TextUtils.isEmpty(message)) {
+        if (TextUtils.isEmpty(message) && byteImage == null) {
             edtMessage.requestFocus();
             return;
         }
-        edtMessage.setText("");
-        addMessage(mUserName, message, 0);
 
-        // perform the sending message attempt.
-        mSocket.emit("client-send-chat", message);
+        addMessage(mUserName, message, byteImage, 0);
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("message", message);
+            jsonObject.put("images", byteImage);
+            // perform the sending message attempt.
+            //mSocket.emit("client-send-chat", message);
+            mSocket.emit("client-send-chat", jsonObject);
+            edtMessage.setText("");
+            lnShowImage.setVisibility(View.GONE);
+            byteImage = null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed send image", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -296,16 +413,19 @@ public class MainActivity extends AppCompatActivity {
         public void call(final Object... args) {
             runOnUiThread(() -> {
                 JSONObject data = (JSONObject) args[0];
-                String username;
-                String message;
+                String username = "";
+                String message = "";
+                byte[] byteImage = null;
                 try {
                     username = data.getString("username");
                     message = data.getString("message");
+                    byteImage = Base64.decode(data.getString("send_img"),Base64.DEFAULT);
+                    Toast.makeText(MainActivity.this, "" + byteImage.length, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     return;
                 }
                 removeTyping(username);
-                addMessage(username, message, 1);
+                addMessage(username, message, byteImage, 1);
             });
         }
     };
