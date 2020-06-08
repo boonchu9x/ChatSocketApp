@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--BORDER EDITTEXT FOR EDITTEXT MATERIAL-->
+    <dimen name="stroke_border_edittext_general">1dp</dimen>
+    <dimen name="corner_edittext_general">5dp</dimen>
+    <dimen name="border_corner_normal">10dp</dimen>
+    <dimen name="border_chat">10dp</dimen>
+    <dimen name="stroke_chat_you">0.7dp</dimen>
+
+</resources>

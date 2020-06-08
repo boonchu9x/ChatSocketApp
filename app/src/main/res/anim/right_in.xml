@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--VÌ PHẢI LOAD QUÁ NHIỀU ẢNH NÊN NÂNG THỜI GIAN duration từ 300-> 500-->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:interpolator="@android:anim/linear_interpolator"
+        android:fromXDelta="100%p"
+        android:toXDelta="0%"
+        android:fromYDelta="0.0"
+        android:toYDelta="0.0"
+        android:duration="300"/>
+</set>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#439BDD</color>
+    <color name="colorPrimaryDark">#3386C5</color>
+    <color name="colorSecondary">#68B0E7</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
+    <color name="white_60">#99ffffff</color>
+    <color name="white_30">#4Dffffff</color>
+    <color name="black">#040404</color>
+    <color name="color_login">#00aff0</color>
+    <color name="color_login_background">#3f82b5</color>
+    <color name="transparent">#00000000</color>
+    <color name="color_black">#fcf946</color>
+    <color name="color_bg_light_off">#9b9999</color>
+    <color name="color_bg_popup_menu">#e9e8e8</color>
+    <color name="color_button">#a0dee7</color>
+    <color name="color_text_content">#306d9f</color>
+    <color name="color_score">#000000</color>
+    <color name="color_intro">#ed9e36</color>
+
+
+    <!--GHI ĐÈ MÀU ĐƯỜNG VIỀN OUTLINE BOX TEXT INPUT LAYOUT-->
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
+
+
+    <!--COLOR INACTIVE BOTTOM MAIN-->
+    <color name="color_inactive_bottom_navigation">#e6696969</color>
+    <color name="color_border_edittext_general">#656565</color>
+
+    <!--DRAWER LAYOUT-->
+    <color name="color_ripple_item_drawer_layout">#CC7D7D7D</color>
+    <!--color colorControlHighlight-->
+    <color name="color_control_highlight_white_alpha">#FFFFFF</color>
+
+
+    <!--MÀU TEXT CHÍNH-->
+    <color name="text_color_primary">@color/black</color>
+    <!--MÀU TEXT THỨ CẤP-->
+    <color name="text_color_secondary">#808080</color>
+
+
+
+
+    <!--COLOR TOAST-->
+    <color name="colorWhite">#FFFFFF</color>
+    <!--toast's text colors-->
+    <color name="colorInfo">#29B6F6</color>
+    <color name="colorSuccess">#66BB6A</color>
+    <color name="mau_dep">#4CAF50</color>
+    <color name="color_online">#62CB00</color>
+    <color name="colorWarning">#FFA726</color>
+    <color name="colorError">#EF5350</color>
+
+    <color name="color_background_red_circle">#FBD9D7</color>
+
+
+    <!--COLOR FOR RIPPLE-->
+    <color name="color_solid_tool_create_no_press">#dedede</color>
+    <color name="color_solid_tool_create_press">#8c8b8b</color>
+    <color name="ripple_item_menu_general">#d0cece</color>
+
+
+    <!--COLOR SECONDARY OF COLOR PRIMARY-->
+    <color name="color_secondary_of_color_primary">#4D439BDD</color>
+    <color name="color_background_frag_home">#1A3f82b5</color>
+    <color name="color_primary_20">#333f82b5</color>
+    <color name="color_primary_10">#1A3f82b5</color>
+    <color name="colorPrimary_70">#800C84EC</color>
+    <color name="color_primary_light">#448AFF</color>
+
+    <color name="colorPrimary1">@color/colorPrimary</color>
+    <color name="colorPrimaryDark1">@color/colorPrimaryDark</color>
+
+    <color name="color_button_call_green">#62CB00</color>
+    <color name="color_button_call_red">#EF5350</color>
+    <color name="color_orange">#ff8f00</color>
+    <color name="color_button_call_blue">#439BDD</color>
+
+
+    <!--BOTTOM_ FRAGMENT SHEET-->
+    <color name="colorGray">#747474</color>
+    <color name="color_icon_normal">#737373</color>
+
+    <color name="color_a_line">@color/color_solid_tool_create_no_press</color>
+    <color name="color_background_title_profile">#4EDEDEDE</color>
+
+    <color name="color_popup">#439BDD</color>
+
+
+    <color name="color_premium">@color/mau_dep</color>
+    <color name="color_premium_secondary">#804CAF50</color>
+
+
+    <color name="color_ripple_button_edit_profile">#4Df9f9f9</color>
+
+</resources>

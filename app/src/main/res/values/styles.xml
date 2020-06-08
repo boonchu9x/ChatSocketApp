@@ -1,0 +1,123 @@
+<resources>
+
+    <!--THEM LOGIN ACTIVITY-->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorButtonNormal">@color/white</item>
+        <item name="android:colorButtonNormal">@color/white</item>
+    </style>
+
+    <style name="ThemeMainActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <!--THEME FOR Text Input Layout LOGIN-->
+    <style name="material_text_input_layout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:textColorHint">@color/white</item>
+        <item name="boxStrokeWidth">@dimen/stroke_border_edittext_general</item>
+        <item name="boxStrokeColor">@color/white</item>
+        <!--BORDER CORNER-->
+        <item name="boxCornerRadiusTopStart">@dimen/corner_edittext_general</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_edittext_general</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_edittext_general</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_edittext_general</item>
+    </style>
+    <!--THEME FOR Edittext Input Layout LOGIN-->
+    <style name="style_edittext_login">
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:autoLink">all</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:textSize">16sp</item> <!--16sp-->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!--<item name="android:background">@drawable/border_edittext_general</item>-->
+        <item name="android:cursorVisible">true</item>
+        <item name="android:gravity">center|start</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:overScrollMode">always</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:scrollbarStyle">insideInset</item>
+        <item name="android:scrollbars">none</item>
+
+    </style>
+
+
+
+
+    <!--APPBAR MAIN-->
+    <!--THEME FOR APPBARLAYOUT-->
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--HIỆU ỨNG RIPPLE CHO MÀU TRẮNG-->
+        <item name="colorControlHighlight">@color/color_control_highlight_white_alpha</item>
+        <item name="android:colorControlHighlight">@color/color_control_highlight_white_alpha</item>
+    </style>
+
+
+    <!--THEME FOR TOOLBAR LAYOUT ĐỂ set màu trắng cho icon toolbar và màu trắng cho chữ-->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+        <!--HIỆU ỨNG RIPPLE CHO MÀU TRẮNG-->
+        <item name="colorControlHighlight">@color/color_control_highlight_white_alpha</item>
+        <item name="android:colorControlHighlight">@color/color_control_highlight_white_alpha</item>
+    </style>
+
+
+    <!--CUSTOM THEME ALERT DIALOG CHUNG-->
+    <style name="Theme_Custom_System_Alert_Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <!--màu-->
+        <!-- <item name="colorPrimary">@color/colorPrimary</item>
+         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+         <item name="colorAccent">@color/colorAccent</item>-->
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/border_alert_dialog_general</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Neutral</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Alert.Button.Neutral</item>
+    </style>
+
+    <!--CUSTOM BUTTON POSITIVE ALERT DIALOG-->
+    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@color/transparent</item>
+        <item name="rippleColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <!--<item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>-->
+    </style>
+    <!--CUSTOM BUTTON NEUTRAL ALERT DIALOG-->
+    <style name="Alert.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@color/transparent</item>
+        <item name="rippleColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <!--<item name="android:textColor">@color/gray_dark</item>
+        <item name="android:textSize">14sp</item>-->
+    </style>
+
+
+    <!--THEME CUSTOM DIALOG NORMAL-->
+    <style name="Theme_Dialog_Custom_Normal" parent="Base.Widget.AppCompat.ActionMode">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+
+    <!--CUSTOM THEME DATEPICKER-->
+    <style name="CalendarDatePickerDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:colorAccent">@color/colorPrimary</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--<item name="android:windowBackground">@drawable/border_alert_dialog_calendar</item>-->
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Neutral</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Alert.Button.Neutral</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/Alert.Button.Neutral</item>
+        <item name="android:buttonBarNeutralButtonStyle">@style/Alert.Button.Neutral</item>
+    </style>
+
+</resources>
