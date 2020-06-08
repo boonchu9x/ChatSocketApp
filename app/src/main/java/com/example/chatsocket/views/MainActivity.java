@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
                 if (null == mUserName) return;
                 if (!mSocket.connected()) return;
 
-                if (!mTyping) {
+                if (!mTyping && count > 0) {
                     mTyping = true;
                     mSocket.emit("client-send-typing");
                 }
@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        addMessage(mUserName, message, byteImage, 0);
+
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -326,7 +326,9 @@ public class MainActivity extends AppCompatActivity {
             // perform the sending message attempt.
             //mSocket.emit("client-send-chat", message);
             mSocket.emit("client-send-chat", jsonObject);
+            addMessage(mUserName, message, byteImage, 0);
             edtMessage.setText("");
+            edtMessage.clearFocus();
             lnShowImage.setVisibility(View.GONE);
             byteImage = null;
         } catch (JSONException e) {
@@ -442,11 +444,10 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 int pos = listMessage.size() - 1;
-               /* if (pos > -1 && mAdapter.getItemViewType(pos) == Message.TYPE_ACTION) {
+                if (pos > -1 && mAdapter.getItemViewType(pos) == Message.TYPE_ACTION) {
                     removeTyping(username);
-                }*/
-                if (pos > -1 && mAdapter.getItemViewType(pos) != Message.TYPE_ACTION)
-                    addTyping(username);
+                }
+                addTyping(username);
 
             });
         }

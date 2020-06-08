@@ -125,8 +125,9 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         void setTransaction(Message message, boolean notshow, int type) {
             if (message != null) {
+                cardImage.setVisibility(View.GONE);
 
-                if (message.getByteImage() != null) {
+                if (message.getByteImage() != null && message.getByteImage().length > 0) {
                     cardImage.setVisibility(View.VISIBLE);
                     imgMessage.setImageBitmap(ImageUtil.getBitmapFromByte(message.getByteImage()));
                 }
